@@ -35,6 +35,11 @@ if is_apple()
     provides(Homebrew.HB, "homebrew/science/hdf5", hdf5, os=:Darwin)
 end
 
+if Sys.KERNEL === :FreeBSD
+    hdf5 = library_dependency("libhdf5", validate=compatible_version)
+    provides(BSDPkg, "hdf5", hdf5)
+end
+
 provides(Sources, URI("https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.0-patch1/src/hdf5-1.10.0-patch1.tar.gz"), hdf5)
 provides(BuildProcess, Autotools(libtarget = joinpath("src", "libhdf5.la")), hdf5)
 
